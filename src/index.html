@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div id="sample_container">
+    <div id="sample" class="sample">test1</div>
+    <div class="btns">
+        <button id="add">增加</button>
+        <button id="remove">删除</button>
+
+        <div>
+            <input type="text" id="text">
+            <button id="replaceText">修改文字</button>
+        </div>
+    </div>
+</div>
+<div id="divGen_container" style="margin-top: 100px">
+    <h2>test2</h2>
+    <div id="rm"></div>
+</div>
+
+
+<div id="wrap" style="margin-top: 100px">
+    <button id="wrap_click">www</button>
+</div>
+<script>
+    $(document).ready(function () {
+//        function addDiv(srcIdSel,objIdSel) {
+//            var srcDiv= $(srcIdSel).clone();
+//            $(objIdSel).append(srcDiv)
+//
+//        }
+        var jq_sample= $('#sample')
+        $('#add').click(function () {
+            var sample_text=jq_sample.text()||'blank'
+            $('<div class="sample">'+sample_text+'</div>').insertBefore($('.btns'))
+        })
+        $('#remove').click(function () {
+            $('.sample').eq(-1).remove()
+        })
+        $('#replaceText').click(function () {
+            $('.sample').text($('#text').val())
+        })
+
+
+
+        var data=[]
+        for (var i = 0; i < 10; i++) {
+            data.push({text:'content of '+i,id:i})
+
+        }
+
+        var jq_DG_container= $('#divGen_container');
+
+
+        for (var obj of data){
+            console.log(obj)
+            var btn= $('<button id="'+obj.id+'">'+obj.text+'</button>')
+            btn.on('click.cl',function () {
+                console.log('id:',$(this).prop('id'))
+            })
+            jq_DG_container.append(btn)
+        }
+
+        var rmclick= $('<div><button>remove all click </button></div>').click(function () {
+            jq_DG_container.children('button').off('click.cl')
+        })
+            .appendTo(jq_DG_container)
+        var addclick= $('<div><button>readd click </button></div>').click(function () {
+            jq_DG_container.children('button').off('click.cl')
+            jq_DG_container.children('button').on('click.cl',function () {
+                    console.log($(this).prop('id'))
+
+            })
+        })
+            .appendTo(jq_DG_container)
+
+
+
+        $('#wrap_click').click(function () {
+
+
+            var exeFun = function (id) {
+                return  console.log(id)
+            }
+
+            exeFun($('#wrap_click').prop('id'))
+
+        })
+    })
+
+
+</script>
+</body>
+</html>
